@@ -7,7 +7,6 @@ from util.models import Coordinate, Size
 
 def solve(part: Literal["a", "b"], input: str) -> int:
     grid: list[list[int]] = []
-    size = Size(len(grid), len(grid[0]))
     trailheads: set[Coordinate] = set()
 
     for x, line in enumerate(input.splitlines()):
@@ -16,6 +15,8 @@ def solve(part: Literal["a", "b"], input: str) -> int:
         trailheads |= {
             Coordinate(x, y) for y, height in enumerate(heights) if height == 0
         }
+
+    size = Size(len(grid), len(grid[0]))
 
     def height(field: Coordinate) -> int:
         return grid[field.x][field.y]
