@@ -1,8 +1,10 @@
 from collections import Counter
 from typing import List, Literal, Tuple
 
+
 def solve(part: Literal["a", "b"], input: str) -> int:
     return solve_a(input) if part == "a" else solve_b(input)
+
 
 def solve_a(input: str) -> int:
     l, r = _parse_input(input)

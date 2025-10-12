@@ -1,4 +1,33 @@
-from typing import Sequence
+from collections import deque
+from typing import Callable, Generator, Sequence, TypeVar
+
+T = TypeVar("T")
+
+
+def dfs(node: T, neighbours: Callable[[T], list[T]]) -> Generator[T, None, None]:
+    """returns a generator yielding nodes in DFS-order"""
+    visited = set()
+    S = deque()
+    S.append(node)
+    while len(S) > 0:
+        v = S.pop()
+        if not v in visited:
+            visited.add(v)
+            S.extend(neighbours(v))
+            yield v
+
+
+def bfs(node: T, neighbours: Callable[[T], list[T]]) -> Generator[T, None, None]:
+    """returns a generator yielding nodes in BFS-order"""
+    visited = set()
+    S = deque()
+    S.append(node)
+    while len(S) > 0:
+        v = S.popleft()
+        if not v in visited:
+            visited.add(v)
+            S.extend(neighbours(v))
+            yield v
 
 
 def search(lst: Sequence[int], val: int) -> int:

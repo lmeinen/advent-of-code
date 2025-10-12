@@ -1,11 +1,8 @@
 from __future__ import annotations
-from collections import defaultdict
-from functools import cache, reduce
-from itertools import accumulate, zip_longest
-import math
-from typing import Literal
 
-from util.models import Coordinate, Size
+import math
+from functools import cache
+from typing import Literal
 
 
 def solve(part: Literal["a", "b"], input: str) -> int:

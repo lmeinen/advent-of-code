@@ -1,13 +1,9 @@
 from __future__ import annotations
 
-import itertools
-import re
 from collections import defaultdict, deque
-from itertools import permutations
 from typing import Literal
 
 from util.algs import search
-from util.models import Coordinate
 
 
 def solve(part: Literal["a", "b"], input: str) -> int:

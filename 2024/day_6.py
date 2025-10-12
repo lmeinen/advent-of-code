@@ -89,6 +89,7 @@ def solve(part: Literal["a", "b"], input: str) -> int:
     else:
         return solve_b(grid, pos)
 
+
 def patrol(grid: Grid, pos: Position, facing: int) -> set[Position]:
     """returns visited positions"""
     on_grid = True
@@ -107,10 +108,11 @@ def patrol(grid: Grid, pos: Position, facing: int) -> set[Position]:
         pos = nxt
     return visited
 
+
 def patrol_loops(grid: Grid, pos: Position, facing: int) -> bool:
     """returns whether patrol is looping"""
     on_grid = True
-    visited = { (pos, facing) }
+    visited = {(pos, facing)}
     while on_grid:
         pos, on_grid = grid.walk(pos, facing)
         visited.add((pos, facing))
