@@ -1,6 +1,8 @@
 from collections import deque
 from typing import Callable, Generator, Sequence, TypeVar
 
+from util.models import Vec
+
 T = TypeVar("T")
 
 
@@ -44,3 +46,8 @@ def search(lst: Sequence[int], val: int) -> int:
             return m
     assert l <= r
     return l
+
+def polygon_area(poinst: list[Vec]) -> int:
+    """Computes the total area of a polygon from a list of corners in counter-clockwise order (min 3)"""
+    # TODO Implement using pick's theorem or shoelace formula
+    return 0

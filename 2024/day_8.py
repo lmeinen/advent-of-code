@@ -6,17 +6,17 @@ from collections import defaultdict
 from itertools import permutations
 from typing import Literal
 
-from util.models import Coordinate, Size
+from util.models import Size, Vec
 
 
 def solve(part: Literal["a", "b"], input: str) -> int:
-    antennas: dict[str, list[Coordinate]] = defaultdict(list)
+    antennas: dict[str, list[Vec]] = defaultdict(list)
     lines = input.splitlines()
     for row, line in enumerate(lines):
         for match in re.finditer(r"[a-zA-Z0-9]", line):
-            antennas[match.group()].append(Coordinate(row, match.start()))
+            antennas[match.group()].append(Vec(row, match.start()))
 
-    antinodes: set[Coordinate] = set()
+    antinodes: set[Vec] = set()
     size = Size(len(lines), len(lines[0]))
 
     for _, antenna_list in antennas.items():
