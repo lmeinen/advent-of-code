@@ -23,6 +23,9 @@ class Size:
             for y in range(self.cols):
                 yield Vec(x, y)
 
+    def __repr__(self):
+        return f"({self.rows},{self.cols})"
+
 
 @functools.total_ordering
 class Vec:
@@ -70,6 +73,11 @@ class Vec:
     def __floordiv__(self, other):
         if isinstance(other, int):
             return Vec(self.x // other, self.y // other)
+        raise NotImplementedError(f"Division not defined for {type(other)}")
+
+    def __mod__(self, other):
+        if isinstance(other, Size):
+            return Vec(self.x % other.cols, self.y % other.rows)
         raise NotImplementedError(f"Division not defined for {type(other)}")
 
     def __repr__(self):
