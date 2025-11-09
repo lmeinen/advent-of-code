@@ -85,3 +85,57 @@ class Vec:
 
     def __str__(self):
         return f"({self.x},{self.y})"
+
+
+class Graph:
+    def __init__(self):
+        self._adj = dict()
+
+    @property
+    def nodes(self) -> list[str]:
+        return list(self._adj.keys())
+
+    def contains(self, label: str) -> bool:
+        """checks if the graph contains a vertex"""
+        return label in self._adj
+
+    def neighbours(self, label: str) -> list[tuple[str, int]]:
+        return self._adj[label] if self.contains(label) else []
+
+    def add_node(self, label: str) -> bool:
+        """attempts to add a labeled node to the graph. Returns False iff a node with that label already exists"""
+        if self.contains(label):
+            return False
+        else:
+            self._adj[label] = []
+            return True
+
+    def add_edge(
+        self, edge: tuple[str, str], weight: int = 1, directed: bool = False
+    ) -> bool:
+        """attempts to add an edge to the graph. Returns False iff one of the edge's nodes doesn't exist"""
+        if edge[0] not in self._adj or edge[1] not in self._adj:
+            return False
+
+        self._adj[edge[0]].append((edge[1], weight))
+        if not directed:
+            self._adj[edge[1]].append((edge[0], weight))
+
+        return True
+
+    def shortest_path(self, a: str, b: str) -> int:
+        """Computes the shortest path from a to b"""
+        distance = {n: (0 if n == a else float('inf')) for n in self.nodes}
+        unvisited = set(self.nodes)
+        def smallest() -> str:
+            return min(unvisited, key=lambda l: distance[l])
+
+        while (curr := smallest()) != b:
+            for (n, w) in self.neighbours(curr):
+                if n in unvisited and distance[curr] + w < distance[n]:
+                    distance[n] = distance[curr] + w
+            unvisited.remove(curr)
+
+        if distance[b] == float('inf'):
+            raise ValueError(f"Couldn't find path from {a} to {b}")
+        return int(distance[b])
