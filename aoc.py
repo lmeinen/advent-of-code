@@ -16,34 +16,37 @@ p.add_argument(
     "--days", nargs="+", type=int, default=list(range(1, 26))  # one or more values
 )  # 1‑25
 p.add_argument("--years", nargs="+", type=int, default=[2024])
+p.add_argument("--with-examples", type=bool, default=False)
 
 
-def run(years: list[int], days: list[int]):
+
+def run(years: list[int], days: list[int], with_examples: bool):
     # go through the list of years:
     for year in years:
         for day in days:
-            solve_puzzle(year, day)
+            solve_puzzle(year, day, with_examples)
 
 
-def solve_puzzle(year, day):
+def solve_puzzle(year, day, with_examples: bool):
     puzzle = Puzzle(year, day)
     solve = import_solution(year, day)
     if solve is not None and callable(solve):
         for part in ("a", "b"):
-            # Check if examples pass
-            for example in puzzle.examples:
-                expected = example.answers[0 if part == "a" else 1]
-                actual = str(solve(part, example.input_data))
-                if expected is not None and actual != expected:
-                    pretty_print(
-                        year,
-                        day,
-                        part,
-                        state="SAMPLE_FAILED",
-                        attempt=actual,
-                        sample=expected,
-                    )
-                    return
+            if with_examples:
+                # Check if examples pass
+                for example in puzzle.examples:
+                    expected = example.answers[0 if part == "a" else 1]
+                    actual = str(solve(part, example.input_data))
+                    if expected is not None and actual != expected:
+                        pretty_print(
+                            year,
+                            day,
+                            part,
+                            state="SAMPLE_FAILED",
+                            attempt=actual,
+                            sample=expected,
+                        )
+                        return
 
             # Solve puzzle
             input = puzzle.input_data
@@ -172,4 +175,4 @@ def import_solution(
 
 
 args = p.parse_args()
-run(args.years, args.days)
+run(args.years, args.days, args.with_examples)
